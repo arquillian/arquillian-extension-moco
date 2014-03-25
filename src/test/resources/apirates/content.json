@@ -1,0 +1,10 @@
+[
+    {
+        "request": {
+            "uri": "/currencies/exchange_rates"
+        },
+        "response": {
+            "text": "path resource"
+        }
+    }
+]
