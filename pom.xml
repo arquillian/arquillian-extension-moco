@@ -56,6 +56,13 @@
 		
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-api-maven</artifactId>
+			<version>${version.shrinkwrap}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
 			<artifactId>shrinkwrap-resolver-depchain</artifactId>
 			<version>${version.shrinkwrap}</version>
 			<scope>test</scope>
@@ -66,13 +73,6 @@
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
 			<version>${version.arquillian}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.openejb</groupId>
-			<artifactId>arquillian-tomee-embedded</artifactId>
-			<version>1.6.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -92,4 +92,31 @@
 		
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>tomee-embedded</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.openejb</groupId>
+					<artifactId>arquillian-tomee-embedded</artifactId>
+					<version>1.6.0</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>wildfly-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<version>8.0.0.Final</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
