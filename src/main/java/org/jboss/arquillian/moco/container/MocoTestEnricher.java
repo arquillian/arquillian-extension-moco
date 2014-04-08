@@ -7,7 +7,7 @@ import java.util.List;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.moco.ReflectionHelper;
-import org.jboss.arquillian.moco.api.MocoArquillianResource;
+import org.jboss.arquillian.moco.api.MocoServerResource;
 import org.jboss.arquillian.test.spi.TestEnricher;
 
 public class MocoTestEnricher implements TestEnricher {
@@ -19,7 +19,7 @@ public class MocoTestEnricher implements TestEnricher {
 	public void enrich(Object testCase) {
 		
 		List<Field> mockFields = ReflectionHelper.getFieldsWithAnnotation(
-				testCase.getClass(), MocoArquillianResource.class);
+				testCase.getClass(), MocoServerResource.class);
 
 		for (Field mockField : mockFields) {
 			try {

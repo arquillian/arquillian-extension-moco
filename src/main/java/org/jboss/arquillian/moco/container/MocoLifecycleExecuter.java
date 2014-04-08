@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -22,6 +23,7 @@ import com.google.common.io.Resources;
 
 public class MocoLifecycleExecuter {
 
+    
 	@Inject @ClassScoped
 	private InstanceProducer<MocoLocation> mocoLocationInstanceProducer;
 	
@@ -53,7 +55,12 @@ public class MocoLifecycleExecuter {
 	public void executeAfterClass(@Observes(precedence = 25) AfterClass afterClass) {
 
 		if(jsonRunner != null) {
-			jsonRunner.stop();
+		    try {
+		        jsonRunner.stop();
+		        TimeUnit.SECONDS.sleep(3);
+		    } catch(Exception e) {
+		        throw new IllegalStateException(e);
+		    }
 		}
 	}
 	
