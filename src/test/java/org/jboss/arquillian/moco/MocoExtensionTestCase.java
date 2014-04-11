@@ -34,13 +34,11 @@ public class MocoExtensionTestCase {
 	public void shouldGetBitcoinTradeRates() throws IOException {
 		
 		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(
-				"http://localhost:12306").build();
+				"http://localhost:12309").build();
 
 		BitcoinService service = restAdapter.create(BitcoinService.class);
 		System.out
 				.println(convertStreamToString(service.rates().getBody().in()));
-		
-		System.out.println("Hello");
 		
 	}
 	

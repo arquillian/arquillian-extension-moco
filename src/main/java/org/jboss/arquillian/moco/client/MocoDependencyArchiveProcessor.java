@@ -12,7 +12,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 public class MocoDependencyArchiveProcessor implements
 		ApplicationArchiveProcessor {
 
-	private static final String MOCO_CORE_COORDINATES = "com.github.dreamhead:moco-core";
+    private static final String MOCO_CORE_COORDINATES = "com.github.dreamhead:moco-core";
 	private static final String MOCO_RUNNER_COORDINATES = "com.github.dreamhead:moco-runner";
 
 	@Override
@@ -39,12 +39,11 @@ public class MocoDependencyArchiveProcessor implements
 						"arquillian-moco-extension-additional-resources.jar");
 				merge(additionalResources,
 						createArchiveWithResources(moco.mocoFile()));
-
+				
 				addResources(applicationArchive, additionalResources);
 				
 			}
 		}
-
 	}
 
 	private void addResources(Archive<?> applicationArchive,
@@ -63,7 +62,6 @@ public class MocoDependencyArchiveProcessor implements
 			target.merge(archiveToMerge);
 		}
 	}
-
 
 	private JavaArchive createArchiveWithResources(String... resourcePaths) {
 		final JavaArchive dataSetsArchive = ShrinkWrap

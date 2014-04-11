@@ -4,6 +4,10 @@
 
     <defaultProtocol type="Servlet 3.0"></defaultProtocol>
     
+    <extension qualifier="moco">
+        <property name="port">12309</property>
+    </extension>
+    
 	<container qualifier="tomee" default="true">
 		<configuration>
 			<property name="httpPort">-1</property>

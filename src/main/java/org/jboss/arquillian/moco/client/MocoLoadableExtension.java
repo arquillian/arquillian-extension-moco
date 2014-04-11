@@ -13,6 +13,8 @@ public class MocoLoadableExtension implements LoadableExtension {
 				MocoDependencyArchiveProcessor.class);
 		builder.service(AuxiliaryArchiveAppender.class,
 				MocoArchiveAppender.class);
+		
+		builder.observer(MocoConfigurator.class);
 
 	}
 

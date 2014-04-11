@@ -8,8 +8,6 @@ public class MocoRemoteExtension implements RemoteLoadableExtension {
 	@Override
 	public void register(ExtensionBuilder builder) {
 		
-		System.out.println("Remote");
-		
 		builder.service(TestEnricher.class, MocoTestEnricher.class);
 		builder.observer(MocoLifecycleExecuter.class);
 	}
