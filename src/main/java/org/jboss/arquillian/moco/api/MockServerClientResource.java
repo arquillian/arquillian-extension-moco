@@ -6,10 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Moco {
+@Target(ElementType.FIELD)
+public @interface MockServerClientResource {
 
-	int port() default 12306;
-	String mocoFile();
-	
 }

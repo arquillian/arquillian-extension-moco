@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.moco.api.Moco;
+import org.jboss.arquillian.moco.api.MockServer;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import retrofit.RestAdapter;
 
 @RunWith(Arquillian.class)
-@Moco(mocoFile = "apirates/content.json")
+@MockServer
 public class MocoExtensionTestCase {
 
 	@Deployment
