@@ -1,11 +1,17 @@
 package org.jboss.arquillian.moco;
 
-import retrofit.client.Response;
-import retrofit.http.GET;
+import javax.ws.rs.core.MediaType;
 
-public interface BitcoinService {
+import org.apache.cxf.jaxrs.client.WebClient;
 
-	@GET("/currencies/exchange_rates")
-	Response rates();
+
+public class BitcoinService {
+
+	public String rates() {
+	    
+	    WebClient client = WebClient.create("http://localhost:8080/mockserver-war-2.8");
+	    return client.path("rates").accept(MediaType.APPLICATION_JSON).get(String.class);
+	    
+	}
 	
 }

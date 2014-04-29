@@ -1,9 +1,12 @@
 package org.jboss.arquillian.moco.client;
 
+import org.jboss.arquillian.container.spi.Container;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
+import org.jboss.arquillian.container.spi.event.container.AfterDeploy;
 import org.jboss.arquillian.container.spi.event.container.AfterUnDeploy;
-import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -12,8 +15,12 @@ public class MockServerDeployer {
 
     private WebArchive mockServerWebArchive;
 	
-    public void executeBeforeDeploy(@Observes BeforeDeploy event) throws DeploymentException {
+    @Inject
+    private Instance<Container> container;
+    
+    public void executeBeforeDeploy(@Observes AfterDeploy event) throws DeploymentException {
        
+        
         if(mockServerWebArchive == null){
             resolveMockServerArchive();
         }

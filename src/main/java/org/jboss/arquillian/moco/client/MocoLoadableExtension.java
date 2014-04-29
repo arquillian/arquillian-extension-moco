@@ -8,11 +8,11 @@ public class MocoLoadableExtension implements LoadableExtension {
 	@Override
 	public void register(ExtensionBuilder builder) {
 
-		builder.service(AuxiliaryArchiveAppender.class,
-				MockServerAppender.class);
+		/*builder.service(AuxiliaryArchiveAppender.class,
+				MockServerAppender.class);*/
 		
 		builder.observer(MockServerDeployer.class);
-		builder.observer(MocoConfigurator.class);
+		//builder.observer(MocoConfigurator.class);
 
 	}
 

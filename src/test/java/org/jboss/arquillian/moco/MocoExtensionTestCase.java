@@ -1,50 +1,75 @@
 package org.jboss.arquillian.moco;
 
-import java.io.IOException;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import org.apache.xbean.finder.archive.JarArchive;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.moco.api.MockServer;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import retrofit.RestAdapter;
+import org.mockserver.client.server.MockServerClient;
 
 @RunWith(Arquillian.class)
-@MockServer
 public class MocoExtensionTestCase {
 
-	@Deployment
-	public static WebArchive deploy() {
-		return ShrinkWrap.create(WebArchive.class)
-				.addClass(BitcoinService.class)
-				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-				.addAsLibraries(Maven
-						.resolver()
-						.loadPomFromFile("pom.xml")
-						.resolve("com.squareup.retrofit:retrofit:1.4.1")
-						.withTransitivity().asFile());
+	@Deployment(testable=false)
+	public static JavaArchive deploy() {
+		return ShrinkWrap.create(JavaArchive.class, "myapp")
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
+	@ArquillianResource
+	URL url;
+	
 	@Test
 	public void shouldGetBitcoinTradeRates() throws IOException {
 		
-		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(
-				"http://localhost:12309").build();
-
-		BitcoinService service = restAdapter.create(BitcoinService.class);
-		System.out
-				.println(convertStreamToString(service.rates().getBody().in()));
+	    System.out.println(url.toExternalForm());
+	    System.out.println(url.getPort());
+	    
+	    int port = url.getPort();
+	    
+	    MockServerClient mockServer = new MockServerClient("localhost", url.getPort(), "mockserver-war-2.8");
+	    
+	    mockServer
+        .when(
+                request()
+                        .withMethod("GET")
+                        .withPath("/login")
+        )
+        .respond(
+                response()
+                        .withBody("{ message: 'incorrect username and password combination' }")
+        );
+        
+        URL url = new URL("http://localhost:"+port+"/mockserver-war-2.8/login");
+        InputStream openStream = url.openStream();
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(openStream));
+        StringBuilder out = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            out.append(line);
+        }
+        System.out.println(out.toString());   //Prints the string content read from input stream
+        reader.close();
+        
+        openStream.close();
 		
-	}
-	
-	static String convertStreamToString(java.io.InputStream is) {
-		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
 	}
 	
 }
